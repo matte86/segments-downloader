@@ -69,18 +69,12 @@ class MPD:
 
         # Loop over each segment in the SegmentTimeline and create timeline
         timeline = []
-        #start_time = 0
         for s in segment_timeline.findall("{urn:mpeg:dash:schema:mpd:2011}S"):
             time = int(s.get("t"))
-            #duration = int(s.get("d")) / timescale
             duration = int(s.get("d"))
-            repeat = int(s.get("r", 0)) + 1
+            repetitions = int(s.get("r", 0)) + 1
 
-            timeline.append(time)
-
-            for i in range(repeat):
-                timeline.append(time + duration)
-                time += duration
+            timeline += [time + duration * i for i in range(repetitions)]
 
         # Create folders for representation and download segments
         for representation in adaptationSet.findall("{urn:mpeg:dash:schema:mpd:2011}Representation"):

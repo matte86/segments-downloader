@@ -8,7 +8,6 @@ def main():
         description='DASH Segments Downloader')
     parser.add_argument('-m', '--mpd', dest='mpd_url', help="URL for DASH MPD", required=True)
     parser.add_argument('-o', '--output', dest='out_path', help="Output folder", required=True)
-    # Parse and print the results
     args = parser.parse_args()
 
     mpd_name = args.mpd_url[args.mpd_url.rindex('/')+1:]
