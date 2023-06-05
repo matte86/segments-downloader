@@ -38,7 +38,7 @@ class MPD:
     root = tree.getroot()
 
     for adaptationSet in root.findall(".//{urn:mpeg:dash:schema:mpd:2011}AdaptationSet"):
-        print("\nFound AdaptationSet:")
+        print("\nFound AdaptationSet")
 
         # Print list of attributes
         if adaptationSet.attrib:
@@ -78,7 +78,10 @@ class MPD:
 
         # Create folders for representation and download segments
         for representation in adaptationSet.findall("{urn:mpeg:dash:schema:mpd:2011}Representation"):
-            print(f"\tFound Representation:")
+            print(f"\tFound Representation")
+
+            repId = str(get_attribute_value(representation, "id"))
+
             # Print list of attributes
             if representation.attrib:
                 for attr, value in representation.attrib.items():
@@ -92,18 +95,13 @@ class MPD:
             create_directory(output_path)
 
             # Download init segment
-            repId = str(get_attribute_value(representation, "id"))
             segment_name = initialization.replace("$RepresentationID$", repId)
             segment_url = self.mpd_base_url + "/" + segment_name
-
-            # Download the init segment file
             download_file(segment_url, output_path + "/" + segment_name)
 
             # Download media segments
             for time in timeline:
                 segment_name = media_template.replace("$RepresentationID$", repId).replace("$Time$", str(time))
                 segment_url = self.mpd_base_url + "/" + segment_name
-
-                # Download the media segment file
                 download_file(segment_url, output_path + "/" + segment_name)
               
