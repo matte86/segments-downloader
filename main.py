@@ -1,11 +1,9 @@
 import argparse
-import os
 from dash import MPD
 from hls import M3U8
 
 def main():
-    parser = argparse.ArgumentParser(
-        description='Segments Downloader')
+    parser = argparse.ArgumentParser(description='Segments Downloader')
     parser.add_argument('-u', '--url', dest='manifest_url', help="URL of the DASH or HLS manifest", required=True)
     parser.add_argument('-o', '--output', dest='out_path', help="Output folder", required=True)
     args = parser.parse_args()
