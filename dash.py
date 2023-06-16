@@ -33,8 +33,21 @@ class MPD:
     self.mpd_base_url = mpd_url[:mpd_url.rindex('/')]
     self.mpd_name = mpd_url[mpd_url.rindex('/')+1:]
 
+    # Create the output directory if it doesn't exist
+    os.makedirs(self.out_path, exist_ok=True)
+
+    # Fetch the manifest file
+    response = requests.get(mpd_url)
+    response.raise_for_status()
+    manifest_content = response.text
+
+    # Save the master playlist
+    manifest_filename = os.path.join(self.out_path, self.mpd_name)
+    with open(manifest_filename, 'w') as f:
+        f.write(manifest_content)
+
     # Load the XML file
-    tree = ET.parse(self.out_path + "/" + self.mpd_name)
+    tree = ET.parse(manifest_filename)
     root = tree.getroot()
 
     for adaptationSet in root.findall(".//{urn:mpeg:dash:schema:mpd:2011}AdaptationSet"):
