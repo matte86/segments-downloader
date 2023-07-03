@@ -1,6 +1,7 @@
 import argparse
 from dash import MPD
 from hls import M3U8
+from mss import ISML
 
 def main():
     parser = argparse.ArgumentParser(description='Segments Downloader')
@@ -14,6 +15,8 @@ def main():
         M3U8(args.out_path, args.manifest_url)
     elif ".mpd" in manifest_name:
         MPD(args.out_path, args.manifest_url)
+    elif ".isml" in args.manifest_url:
+        ISML(args.out_path, args.manifest_url)
 
 if __name__ == "__main__":
     main()
