@@ -28,10 +28,11 @@ def download_file(url, output_path):
         print(f"\t\tAn error occurred while downloading the file.")
 
 class MPD:
-  def __init__(self, out_path, mpd_url):
+  def __init__(self, out_path, mpd_url, num_segments):
     self.out_path = out_path
     self.mpd_base_url = mpd_url[:mpd_url.rindex('/')]
     self.mpd_name = mpd_url[mpd_url.rindex('/')+1:]
+    self.num_segments = num_segments
 
     # Create the output directory if it doesn't exist
     os.makedirs(self.out_path, exist_ok=True)
@@ -110,11 +111,16 @@ class MPD:
             # Download init segment
             segment_name = initialization.replace("$RepresentationID$", repId)
             segment_url = self.mpd_base_url + "/" + segment_name
-            download_file(segment_url, output_path + "/" + segment_name)
+            download_file(segment_url, output_path + "/" + segment_name.replace("/", "_"))
 
             # Download media segments
+            idx = 0
             for time in timeline:
                 segment_name = media_template.replace("$RepresentationID$", repId).replace("$Time$", str(time))
                 segment_url = self.mpd_base_url + "/" + segment_name
-                download_file(segment_url, output_path + "/" + segment_name)
+                download_file(segment_url, output_path + "/" + segment_name.replace("/", "_"))
+
+                if idx > self.num_segments:
+                    break
+                idx += 1
               
