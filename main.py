@@ -13,11 +13,11 @@ def main():
     manifest_name = args.manifest_url[args.manifest_url.rindex('/')+1:]
     
     if ".m3u8" in manifest_name:
-        M3U8(args.out_path, args.manifest_url)
+        M3U8(args.out_path, args.manifest_url, int(args.num_segments))
     elif ".mpd" in manifest_name:
         MPD(args.out_path, args.manifest_url, int(args.num_segments))
     elif ".isml" in args.manifest_url:
-        ISML(args.out_path, args.manifest_url)
+        ISML(args.out_path, args.manifest_url, int(args.num_segments))
 
 if __name__ == "__main__":
     main()
