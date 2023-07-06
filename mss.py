@@ -23,9 +23,6 @@ class ISML:
         return start_times
 
     def write_xml_to_file(self, root, output_file):
-        # Create an ElementTree object with the root element
-        tree = ET.ElementTree(root)
-        
         # Create a string buffer to hold the XML content
         xml_content = ET.tostring(root, encoding="utf-8")
         

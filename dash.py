@@ -37,7 +37,7 @@ class MPD:
 
             # Create folder
             mime_type = str(self.get_attribute_value(adaptationSet, "mimeType")).split("/")[0]
-            if "application" in mime_type:
+            if "audio" in mime_type or "application" in mime_type:
                 lang = str(self.get_attribute_value(adaptationSet, "lang"))
                 mime_type += "_" + lang
             self.create_directory(self.out_path + mime_type)
